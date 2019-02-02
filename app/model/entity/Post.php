@@ -6,10 +6,13 @@ class Post
 
     private $content;
 
-    public function __construct($id, $content)
+    private $posttime;
+
+    public function __construct($id, $content, $posttime)
     {
         $this->setId($id);
         $this->setContent($content);
+        $this->setPostTime($posttime);
     }
 
     public function __set($name, $value)
@@ -39,10 +42,10 @@ class Post
     {
         $list = [];
         $db = Db::connect();
-        $statement = $db->prepare("select * from post");
+        $statement = $db->prepare("select * from post order by posttime desc");
         $statement->execute();
         foreach ($statement->fetchAll() as $post) {
-            $list[] = new Post($post->id, $post->content);
+            $list[] = new Post($post->id, $post->content, $post->posttime);
         }
         return $list;
     }
@@ -55,6 +58,6 @@ class Post
         $statement->bindValue('id', $id);
         $statement->execute();
         $post = $statement->fetch();
-        return new Post($post->id, $post->content);
+        return new Post($post->id, $post->content, $post->posttime);
     }
 }
