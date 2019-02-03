@@ -9,4 +9,18 @@ posttime DATETIME DEFAULT CURRENT_TIMESTAMP,
 image varchar(255)
 )engine=InnoDB;
 
-insert into post (content) values ('Evo danas pada kiša opet :('), ('Jedem jagode.');
+create table comment(
+id int not null primary key auto_increment,
+postid int not null,
+content text,
+commenttime DATETIME DEFAULT CURRENT_TIMESTAMP
+)engine=InnoDB;
+
+insert into post (content) values
+('Evo danas pada kiša opet :('),
+('Jedem jagode.');
+insert into comment (postid,content) values
+(1,'Bas šteta :('),
+(2,'Blago tebi');
+
+alter table comment add foreign key (postid) references post(id);
