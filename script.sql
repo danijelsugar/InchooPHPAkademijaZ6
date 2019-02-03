@@ -5,7 +5,8 @@ use social_network;
 create table post(
 id int not null primary key auto_increment,
 content text,
-posttime DATETIME DEFAULT CURRENT_TIMESTAMP
+posttime DATETIME DEFAULT CURRENT_TIMESTAMP,
+image varchar(255)
 )engine=InnoDB;
 
 insert into post (content) values ('Evo danas pada kiša opet :('), ('Jedem jagode.');
