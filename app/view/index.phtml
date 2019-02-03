@@ -1,8 +1,11 @@
-<form method="post" action="<?php echo App::config('url') ?>Index/newPost">
+<form method="post" action="<?php echo App::config('url') ?>Index/newPost" enctype="multipart/form-data">
 
     <div class="form-group">
         <label for="content">What's on your mind?</label>
         <input id="content" name="content" class="form-control">
+    </div>
+    <div class="form-group">
+        <input type="file" name="image">
     </div>
 
     <button type="submit" class="btn btn-primary">Save</button>
