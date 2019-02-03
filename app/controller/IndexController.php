@@ -15,23 +15,33 @@ class IndexController
     public function view($id = 0)
     {
         $view = new View();
+        $comments = Comment::all($id);
 
         $view->render('view', [
-            "post" => Post::find($id)
+            "post" => Post::find($id),
+            "comments" => $comments
         ]);
     }
-
+    
     public function newPost()
     {
         $data = $this->_validate($_POST);
+
+
 
         if ($data === false) {
             header('Location: ' . App::config('url'));
         } else {
             $connection = Db::connect();
-            $sql = 'INSERT INTO post (content) VALUES (:content)';
+            $sql = 'INSERT INTO post (content,image) VALUES (:content,:image)';
             $stmt = $connection->prepare($sql);
             $stmt->bindValue('content', $data['content']);
+            if ($image=='') {
+                $stmt->bindValue(':image', null, PDO::PARAM_STR);
+            } else {
+                $stmt->bindParam(':image', $image);
+            }
+
             $stmt->execute();
             header('Location: ' . App::config('url'));
         }
@@ -58,4 +68,10 @@ class IndexController
         }
         return $data;
     }
+
+
+
+
+
 }
+
