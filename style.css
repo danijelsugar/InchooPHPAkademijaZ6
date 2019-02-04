@@ -1,0 +1,14 @@
+.boldTxt {
+    font-weight: bolder;
+    color: #000;
+}
+.postDetails {
+    align-items: center;
+}
+.image-div {
+    width: 100px;
+    height: 100px;
+}
+.image-div img {
+    width: 100%;
+}
