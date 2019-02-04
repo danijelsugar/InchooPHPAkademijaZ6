@@ -22,12 +22,10 @@ class IndexController
             "comments" => $comments
         ]);
     }
-    
+
     public function newPost()
     {
         $data = $this->_validate($_POST);
-
-
 
         if ($data === false) {
             header('Location: ' . App::config('url'));
@@ -44,6 +42,24 @@ class IndexController
 
             $stmt->execute();
             header('Location: ' . App::config('url'));
+        }
+    }
+
+    public function newComment()
+    {
+        $data = $this->_validate($_POST);
+
+        if ($data === false) {
+            header('Location: ' . App::config('url'));
+        } else {
+            $connection = Db::connect();
+            $sql = 'insert into comment (postid, content) values (:postid, :content)';
+            $stmt = $connection->prepare($sql);
+            $stmt->bindValue(':postid', $data['postid']);
+            $stmt->bindValue(':content', $data['content']);
+
+            $stmt->execute();
+            header('Location: ' . App::config('url') . 'Index/view/' . $data['postid']);
         }
     }
 
