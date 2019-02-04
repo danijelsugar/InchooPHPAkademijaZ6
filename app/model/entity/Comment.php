@@ -44,8 +44,8 @@ class Comment
         $id = intval($id);
         $commentsList = [];
         $db = Db::connect();
-        $statement = $db->prepare('select * from comment where id=:id');
-        $statement->bindValue(':id', $id);
+        $statement = $db->prepare('select * from comment where postid=:postid order by commenttime desc');
+        $statement->bindValue(':postid', $id);
         $statement->execute();
         foreach ($statement->fetchAll() as $comment) {
             $commentsList[] = new Comment($comment->id, $comment->postid, $comment->content, $comment->commenttime);
