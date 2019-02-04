@@ -2,10 +2,10 @@
 
     <div class="form-group">
         <label for="content">What's on your mind?</label>
-        <input id="content" name="content" class="form-control">
+        <input id="content" name="content" class="form-control" autocomplete="off">
     </div>
     <div class="form-group">
-        <input type="file" name="image">
+        <input type="file" name="image" id="image">
     </div>
 
     <button type="submit" class="btn btn-primary">Save</button>
@@ -15,18 +15,23 @@
 
 <?php foreach ($posts as $post): ?>
     <div class="row">
-        <div class="col-4">
+        <div class="col-3">
             <p>
                 <a href="<?php echo App::config('url') ?>Index/view/<?= $post->getId() ?> ">
                     Post: <?= htmlspecialchars($post->getContent()) ?>
                 </a>
             </p>
         </div>
-        <div class="col-4">
+        <div class="col-3">
             <p>Time: <?= date('d.m.Y H:i',strtotime($post->getPostTime())); ?></p>
         </div>
-        <div class="col-4">
+        <div class="col-3">
             <p><?= Comment::countComments($post->getId()); ?> comments</p>
         </div>
+        <?php if ($post->getImage() != null): ?>
+        <div class="col-3">
+            <p><img src="<?= App::config('url') . 'uploads/' . $post->getImage(); ?>" alt="img"></p>
+        </div>
+        <?php endif; ?>
     </div>
 <?php endforeach; ?>

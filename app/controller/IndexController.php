@@ -2,13 +2,13 @@
 
 class IndexController
 {
-    public function index()
+    public function index($id = 0)
     {
         $view = new View();
         $posts = Post::all();
 
         $view->render('index', [
-            "posts" => $posts
+            "posts" => $posts,
         ]);
     }
 
@@ -26,6 +26,25 @@ class IndexController
     public function newPost()
     {
         $data = $this->_validate($_POST);
+        $targetFile = null;
+        if (!empty($_FILES['image']['name'])) {
+            $targetDir = BP . 'uploads/';
+            $name = basename($_FILES['image']['name']);
+            $targetFile = $targetDir . $name;
+            $fileType = pathinfo($targetFile, PATHINFO_EXTENSION);
+            $allowedFileTypes=array("jpg", "jpeg");
+
+            if (!in_array($fileType, $allowedFileTypes)) {
+                echo 'Not allowed file type, only jpeg and jpg are allowed';
+            }
+
+            if ($_FILES['image']['size'] > 2097152) {
+                echo 'File size too big';
+            }
+
+            move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile);
+        }
+
 
         if ($data === false) {
             header('Location: ' . App::config('url'));
@@ -34,14 +53,11 @@ class IndexController
             $sql = 'INSERT INTO post (content,image) VALUES (:content,:image)';
             $stmt = $connection->prepare($sql);
             $stmt->bindValue('content', $data['content']);
-            if ($image=='') {
-                $stmt->bindValue(':image', null, PDO::PARAM_STR);
-            } else {
-                $stmt->bindParam(':image', $image);
-            }
+            $stmt->bindValue(':image', $name);
 
             $stmt->execute();
             header('Location: ' . App::config('url'));
+
         }
     }
 
@@ -50,7 +66,7 @@ class IndexController
         $data = $this->_validate($_POST);
 
         if ($data === false) {
-
+            header('Location: ' . App::config('url'));
         } else {
             $connection = Db::connect();
             $sql = 'insert into comment (postid, content) values (:postid, :content)';

@@ -6,7 +6,7 @@
         <p><?= date("d.m.Y H:i",strtotime($post->getPostTime())); ?></p>
     </div>
     <div class="col-4">
-        <a href="<?php echo App::config('url') ?>Index/deletePost/<?php echo $post->getId(); ?>" class="btn btn-primary">Delete post</a>
+        <a onclick="return confirm('Are you sure you want to delete post')" href="<?php echo App::config('url') ?>Index/deletePost/<?php echo $post->getId(); ?>" class="btn btn-primary">Delete post</a>
     </div>
 </div>
 

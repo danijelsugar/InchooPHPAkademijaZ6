@@ -8,11 +8,12 @@ class Post
 
     private $posttime;
 
-    public function __construct($id, $content, $posttime)
+    public function __construct($id, $content, $posttime, $image)
     {
         $this->setId($id);
         $this->setContent($content);
         $this->setPostTime($posttime);
+        $this->setImage($image);
     }
 
     public function __set($name, $value)
@@ -45,19 +46,21 @@ class Post
         $statement = $db->prepare("select * from post order by posttime desc");
         $statement->execute();
         foreach ($statement->fetchAll() as $post) {
-            $list[] = new Post($post->id, $post->content, $post->posttime);
+            $list[] = new Post($post->id, $post->content, $post->posttime, $post->image);
         }
         return $list;
     }
+
+
 
     public static function find($id)
     {
         $id = intval($id);
         $db = Db::connect();
         $statement = $db->prepare("select * from post where id = :id");
-        $statement->bindValue('id', $id);
+        $statement->bindValue(':id', $id);
         $statement->execute();
         $post = $statement->fetch();
-        return new Post($post->id, $post->content, $post->posttime);
+        return new Post($post->id, $post->content, $post->posttime, $post->image);
     }
 }
