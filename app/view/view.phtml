@@ -1,24 +1,33 @@
-<div class="row">
-    <div class="col-4">
+<div class="row postDetails">
+    <div class="col-3">
         <p><?= htmlspecialchars($post->getContent()) ?></p>
     </div>
-    <div class="col-4">
+    <div class="col-3">
         <p><?= date("d.m.Y H:i",strtotime($post->getPostTime())); ?></p>
     </div>
-    <div class="col-4">
+    <?php if ($post->getImage() != null): ?>
+    <div class="col-3">
+        <div class="image-div">
+            <img src="<?= App::config('url') . 'uploads/' . $post->getImage(); ?>" alt="img">
+        </div>
+    </div>
+    <?php endif; ?>
+    <div class="col-3">
         <a onclick="return confirm('Are you sure you want to delete post')" href="<?php echo App::config('url') ?>Index/deletePost/<?php echo $post->getId(); ?>" class="btn btn-primary">Delete post</a>
     </div>
 </div>
 
 <div class="row">
-    <form action="<?php echo App::config('url') ?>Index/newComment" method="post">
-        <div class="form-group">
-            <label for="content">Comment</label>
-            <input type="text" name="content" id="content" class="form-control">
-        </div>
-        <input type="hidden" name="postid" id="postid" value="<?php echo $post->getId(); ?>">
-        <button type="submit" class="btn btn-primary">Send</button>
-    </form>
+    <div class="col-12">
+        <form action="<?php echo App::config('url') ?>Index/newComment" method="post">
+            <div class="form-group">
+                <label for="content">Comment</label>
+                <input type="text" name="content" id="content" class="form-control" autocomplete="off">
+            </div>
+            <input type="hidden" name="postid" id="postid" value="<?php echo $post->getId(); ?>">
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </div>
 </div>
 
 <div class="row">
