@@ -1,9 +1,12 @@
 <div class="row">
-    <div class="col-6">
+    <div class="col-4">
         <p><?= htmlspecialchars($post->getContent()) ?></p>
     </div>
-    <div class="col-6">
+    <div class="col-4">
         <p><?= date("d.m.Y H:i",strtotime($post->getPostTime())); ?></p>
+    </div>
+    <div class="col-4">
+        <a href="<?php echo App::config('url') ?>Index/deletePost/<?php echo $post->getId(); ?>" class="btn btn-primary">Delete post</a>
     </div>
 </div>
 
