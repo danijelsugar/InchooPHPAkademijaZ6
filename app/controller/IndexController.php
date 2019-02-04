@@ -50,7 +50,7 @@ class IndexController
         $data = $this->_validate($_POST);
 
         if ($data === false) {
-            header('Location: ' . App::config('url'));
+
         } else {
             $connection = Db::connect();
             $sql = 'insert into comment (postid, content) values (:postid, :content)';
@@ -61,6 +61,27 @@ class IndexController
             $stmt->execute();
             header('Location: ' . App::config('url') . 'Index/view/' . $data['postid']);
         }
+    }
+
+    public function deletePost($id)
+    {
+
+
+        $connection = Db::connect();
+
+        $sql = 'delete from comment where postid=:postid';
+        $stmt = $connection->prepare($sql);
+        $stmt->bindValue(':postid', $id);
+        $stmt->execute();
+
+
+        $sql = 'delete from post where id=:id';
+        $stmt = $connection->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+
+
+        header('Location: ' . App::config('url'));
     }
 
     /**
