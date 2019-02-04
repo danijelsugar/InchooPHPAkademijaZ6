@@ -52,4 +52,18 @@ class Comment
         }
         return $commentsList;
     }
+
+    public static function countComments($postid)
+    {
+        $postid = intval($postid);
+        $db = Db::connect();
+        $statement = $db->prepare('select count(id) as commentcount from comment where postid=:postid');
+        $statement->bindValue(':postid', $postid);
+        $statement->execute();
+        $comments = $statement->fetchColumn();
+
+        return $comments;
+    }
+
+
 }
