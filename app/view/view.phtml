@@ -7,9 +7,24 @@
     </div>
 </div>
 
+<div class="row">
+    <form action="<?php echo App::config('url') ?>Index/newComment" method="post">
+        <div class="form-group">
+            <label for="content">Comment</label>
+            <input type="text" name="content" id="content" class="form-control">
+        </div>
+        <input type="hidden" name="postid" id="postid" value="<?php echo $post->getId(); ?>">
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+</div>
 
-
-<h3>Comments</h3>
-<?php foreach ($comments as $comment): ?>
-<p><?= $comment->getContent(); ?></p>
-<?php endforeach; ?>
+<div class="row">
+    <div class="col-12">
+        <h3>Comments</h3>
+    </div>
+    <div class="col-12">
+        <?php foreach ($comments as $comment): ?>
+            <p><?= $comment->getContent(); ?></p>
+        <?php endforeach; ?>
+    </div>
+</div>
