@@ -36,10 +36,12 @@ class IndexController
 
             if (!in_array($fileType, $allowedFileTypes)) {
                 echo 'Not allowed file type, only jpeg and jpg are allowed';
+                exit();
             }
 
             if ($_FILES['image']['size'] > 2097152) {
                 echo 'File size too big';
+                exit();
             }
 
             move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile);
